@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Revisao4API.Data;
 
 namespace Revisao4API
 {
@@ -26,7 +28,9 @@ namespace Revisao4API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext();
+            services.AddDbContext<DataContext>(
+                context => context.UseSqlServer(Configuration.GetConnectionString("Banco16"))
+            );
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
